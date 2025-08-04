@@ -52,16 +52,6 @@ notebook
 #huggingface_hub[hf_xet]
 hf_xet
 
-#------Speech to Text ------------------------------
-certifi
-charset-normalizer
-idna
-PyAudio
-requests
-SpeechRecognition
-typing_extensions
-urllib3
-
 # ----- Postgres Database ---------------
 python-dotenv
 sqlalchemy 

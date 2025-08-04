@@ -81,30 +81,6 @@ def load_rag_components():
         ]
     job_docs = []
     print(f"Loading {len(job_post_urls)} specific job posts with targeted extraction...")
-
-    """for url in job_post_urls:
-        try:
-            response = requests.get(url)
-            response.raise_for_status()
-            soup = bs4.BeautifulSoup(response.content, 'lxml')
-            
-            # Use a specific selector to find the main content container
-            # On these pages, the job description is inside a <div class="content">
-            main_content = soup.select_one("div.content")
-            
-            if main_content:
-                content_text = main_content.get_text(strip=True)
-                # Create a LangChain Document manually with the clean text
-                doc = Document(
-                    page_content=content_text,
-                    metadata={"source": url}
-                )
-                job_docs.append(doc)
-            else:
-                print(f"  - Warning: Could not find main content for {url}")
-
-        except Exception as e:
-            print(f"  - Failed to load {url}. Error: {e}")"""
     
     for url in job_post_urls:
         try:

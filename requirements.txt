@@ -1,0 +1,75 @@
+# ─── UI & App ────────────────────────────────────────────────
+streamlit>=1.33,<2.0                 # chat interface
+
+# ─── LangChain stack ─────────────────────────────────────────
+#langchain>=0.1.13,<0.2.0             # core abstractions#
+#langchain-community>=0.0.30,<0.1.0   # Chroma, Pinecone, loaders
+#langchain-core>=0.1.36,<0.2.0        # prompt / runnable primitives
+langchain
+langchain-community
+langchain-core
+chromadb ##
+#chromadb==0.4.18
+tiktoken ##
+langchain-experimental ##
+sentence_transformers ##
+langchain_huggingface ##
+
+selenium
+webdriver-manager
+
+# ─── Vector DB + LLM clients ─────────────────────────────────
+pinecone-client>=3.0,<4.0            # vector store
+openai>=1.23,<2.0                    # embeddings + chat models
+
+# ─── Data wrangling & progress ───────────────────────────────
+pandas>=2.1,<3.0
+tqdm>=4.66,<5.0
+
+# ─── Parsing / helpers ───────────────────────────────────────
+beautifulsoup4>=4.12,<5.0            # html parser for WebBaseLoader
+pypdf>=4.0,<5.0                      # PDF loader backend
+rapidfuzz>=3.6,<4.0                  # fuzzy title matching
+python-dotenv>=1.0,<2.0              # .env support
+docling
+
+# ─── Evaluation ──────────────────────────────────────────
+datasets
+ragas
+pyngrok
+seaborn
+
+# ─── Jupyter Notebook ────────────────────────────────────────
+jupyter ##
+ipykernel ##
+ipywidgets
+matplotlib
+nbconvert
+jupyter_contrib_nbextensions
+notebook
+
+# -----Hugging Face-------------------------------------------
+#huggingface_hub[hf_xet]
+hf_xet
+
+#------Speech to Text ------------------------------
+certifi
+charset-normalizer
+idna
+PyAudio
+requests
+SpeechRecognition
+typing_extensions
+urllib3
+
+# ----- Postgres Database ---------------
+python-dotenv
+sqlalchemy 
+psycopg2-binary
+pgvector
+langchain-community[pgvector]
+
+
+# --- Specific Dependency Fixes ---
+protobuf==3.20.3
+pysqlite3-binary

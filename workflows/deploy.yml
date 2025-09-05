@@ -1,0 +1,38 @@
+# .github/workflows/deploy.yml
+
+name: Deploy to Hugging Face Spaces
+
+# This workflow runs on any push to the 'main' branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-to-hub:
+    # Use the latest version of Ubuntu to run the job
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the code from your repository
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Step 2: Log in to the Hugging Face container registry
+      # This uses secrets you've set up in your GitHub repository
+      - name: Log in to Hugging Face Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: hf.co
+          username: ${{ secrets.HF_USERNAME }}
+          password: ${{ secrets.HF_TOKEN }}
+
+      # Step 3: Build the Docker image from your Dockerfile and push it
+      # to your Hugging Face Space's registry.
+      - name: Build and Push Docker Image
+        uses: docker/build-and-push-action@v5
+        with:
+          context: .
+          push: true
+          # The tag must match the format for Hugging Face Spaces:
+          # hf.co/YOUR_HF_USERNAME/YOUR_SPACE_NAME:latest
+          tags: hf.co/${{ secrets.HF_USERNAME }}/${{ secrets.HF_SPACE_NAME }}:latest

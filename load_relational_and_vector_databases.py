@@ -53,7 +53,7 @@ COMPANIES_CONFIG = {
     }
 }
 
-# --- Create Database Tables ---
+# --- Create Database Tables --
 print("Attempting to create tables from the central database models...")
 with engine.connect() as connection:
     Base.metadata.create_all(bind=connection)

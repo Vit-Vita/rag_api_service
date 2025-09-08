@@ -17,6 +17,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Debug Secrets
+        run: |
+        echo "HF_USERNAME=${{ secrets.HF_USERNAME }}"
+        echo "HF_SPACE_NAME=${{ secrets.HF_SPACE_NAME }}"
+        echo "HF_TOKEN=${{ secrets.HF_TOKEN }}"  # Avoid printing sensitive information
+
+
       # Step 2: Log in to the Hugging Face container registry
       # This uses secrets you've set up in your GitHub repository
       - name: Log in to Hugging Face Container Registry
@@ -36,3 +43,6 @@ jobs:
           # The tag must match the format for Hugging Face Spaces:
           # hf.co/YOUR_HF_USERNAME/YOUR_SPACE_NAME:latest
           tags: hf.co/${{ secrets.HF_USERNAME }}/${{ secrets.HF_SPACE_NAME }}:latest
+
+
+      

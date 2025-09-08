@@ -19,9 +19,9 @@ jobs:
 
       - name: Debug Secrets
         run: |
-        echo "HF_USERNAME=${{ secrets.HF_USERNAME }}"
-        echo "HF_SPACE_NAME=${{ secrets.HF_SPACE_NAME }}"
-        echo "HF_TOKEN=${{ secrets.HF_TOKEN }}"  # Avoid printing sensitive information
+          echo "HF_USERNAME=${{ secrets.HF_USERNAME }}"
+          echo "HF_SPACE_NAME=${{ secrets.HF_SPACE_NAME }}"
+          echo "HF_TOKEN=${{ secrets.HF_TOKEN }}"  
 
 
       # Step 2: Log in to the Hugging Face container registry

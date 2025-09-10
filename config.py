@@ -22,4 +22,7 @@ class Settings(BaseSettings):
     OPENAI_EMBED_MODEL: str = os.getenv("OPENAI_EMBED_MODEL", "text-embedding-3-small")
     OPENAI_CHAT_MODEL: str = os.getenv("OPENAI_CHAT_MODEL", "gpt-4o")
 
+    #API security
+    API_SECRET_KEY: str = os.getenv("API_SECRET_KEY")
+
 settings = Settings()

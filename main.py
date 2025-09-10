@@ -1,12 +1,14 @@
 # main.py
 import uuid
-from fastapi import FastAPI, HTTPException, Body, Depends, Path
+from fastapi import FastAPI, HTTPException, Body, Depends, Path, Security
+from fastapi.security import APIKeyHeader
 from pydantic import BaseModel
 from typing import List, Optional
 from sqlalchemy.orm import Session
 
 import rag_logic
 import database as db
+import config
 
 # Initialize the FastAPI app
 app = FastAPI(
@@ -14,6 +16,20 @@ app = FastAPI(
     description="An API for a multi-company RAG system using PostgreSQL and PGVector.",
     version="3.1.0"
 )
+
+# --- API Key Security Setup ---
+API_KEY_NAME = "X-API-KEY"
+api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=True)
+
+async def get_api_key(api_key: str = Security(api_key_header)):
+    """Checks if the provided API key is valid."""
+    if api_key == config.settings.API_SECRET_KEY:
+        return api_key
+    else:
+        raise HTTPException(
+            status_code=401, 
+            detail="Invalid or missing API Key"
+        )
 
 # --- Pydantic Models ---
 class GeneralChatRequest(BaseModel):
@@ -45,7 +61,8 @@ class JobListResponse(BaseModel):
 @app.get("/{company_name}/jobs", response_model=JobListResponse, tags=["Jobs"])
 def get_all_jobs(
     company_name: str = Path(..., description="Company name, e.g., 'Hager' or 'Luzerner Kantonalbank'"),
-    db_session: Session = Depends(db.get_db)
+    db_session: Session = Depends(db.get_db),
+    api_key: str = Depends(get_api_key)
 ):
     """Retrieves a list of all available job postings for a specific company."""
     jobs_from_db = rag_logic.load_all_jobs(db_session, company_name)
@@ -59,7 +76,8 @@ def get_all_jobs(
 def process_general_chat(
     request: GeneralChatRequest,
     company_name: str = Path(..., description="Company name, e.g., 'Hager' or 'LUKB'"),
-    db_session: Session = Depends(db.get_db)
+    db_session: Session = Depends(db.get_db),
+    api_key: str = Depends(get_api_key)
 ):
     """Handles general questions not related to a specific job posting."""
     session_id = request.session_id or str(uuid.uuid4())
@@ -82,7 +100,8 @@ def process_general_chat(
 def process_specific_chat(
     request: SpecificChatRequest,
     company_name: str = Path(..., description="Company name, e.g., 'Hager' or 'LUKB'"),
-    db_session: Session = Depends(db.get_db)
+    db_session: Session = Depends(db.get_db),
+    api_key: str = Depends(get_api_key)
 ):
     """Handles questions that are focused on a specific job posting."""
     session_id = request.session_id or str(uuid.uuid4())
